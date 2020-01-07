@@ -9,6 +9,7 @@ import IterationSample from "./IterationSample";
 import LifeCycleSample from "./LifeCycleSample";
 import ErrorBoundary from "./ErrorBoundary";
 import Info from "./Info";
+import Average from "./Average";
 /*
 class App extends Component {
   render() {
@@ -49,6 +50,7 @@ class App extends Component {
   }
 }
 */
+/*
 const App = () => {
   const [visible, setVisible] = useState(false);
   return (
@@ -64,5 +66,9 @@ const App = () => {
       {visible && <Info />}
     </div>
   );
+};
+*/
+const App = () => {
+  return <Average />;
 };
 export default App;
