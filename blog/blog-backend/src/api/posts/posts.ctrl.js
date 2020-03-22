@@ -1,10 +1,35 @@
 import Post from '../../models/post';
+import mongoose from 'mongoose';
+import Joi from 'joi';
 
+const { ObjectId } = mongoose.Types;
+
+export const checkObjctId = (ctx, next) => {
+  const { id } = ctx.params;
+  if (!ObjectId.isValid(id)) {
+    ctx.status = 400;
+    return;
+  }
+  return next();
+};
 /* 포스트 작성
 POST /api/posts
 {title, body}
 */
 export const write = async ctx => {
+  const schema = Joi.object().keys({
+    title: Joi.string().required(),
+    body: Joi.string().required(),
+    tags: Joi.array()
+      .items(Joi.string())
+      .required(),
+  });
+  const result = Joi.validate(ctx.request.body, schema);
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
   const { title, body, tags } = ctx.request.body;
   const post = new Post({
     title,
@@ -68,6 +93,19 @@ PATCH /api/posts/:id
 
 export const update = async ctx => {
   const { id } = ctx.params;
+
+  const schema = Joi.object().keys({
+    title: Joi.string(),
+    body: Joi.string(),
+    tags: Joi.array().items(Joi.string()),
+  });
+  const result = Joi.validate(ctx.request.body, schema);
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+
   try {
     const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
       new: true,
