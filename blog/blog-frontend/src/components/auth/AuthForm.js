@@ -79,7 +79,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             name="passwordConfirm"
             placeholder="비밀번호 확인"
             type="password"
-            onChage={onChange}
+            onChange={onChange}
             value={form.passwordConfirm}
           />
         )}
