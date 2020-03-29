@@ -81,6 +81,7 @@ export const login = async ctx => {
   }
 };
 export const check = async ctx => {
+  console.log(ctx.state);
   const { user } = ctx.state;
   if (!user) {
     ctx.status = 401;

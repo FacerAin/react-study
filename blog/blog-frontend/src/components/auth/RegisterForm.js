@@ -48,7 +48,7 @@ const RegisterForm = ({ history }) => {
   }, [dispatch]);
   useEffect(() => {
     if (authError) {
-      if (authError.response.status == 409) {
+      if (authError.response.status === 409) {
         setError('이미 존재하는 계정명입니다.');
         return;
       }
@@ -66,8 +66,12 @@ const RegisterForm = ({ history }) => {
   useEffect(() => {
     if (user) {
       console.log('SUCCESS check API');
-      console.log(user);
       history.push('/');
+      try {
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        console.log('localStorage is not working');
+      }
     }
   }, [history, user]);
   return (
